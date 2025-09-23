@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запись успешна - DentCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/success.css' %}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="/" class="logo">🦷 DentCare</a>
+            <div class="nav-links">
+                <a href="/#services">Услуги</a>
+                <a href="/#doctors">Врачи</a>
+                <a href="/#about">О нас</a>
+                <a href="/#contact">Контакты</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="success-container">
+        <!-- Success Animation -->
+        <div class="success-animation">
+            <div class="checkmark-circle">
+                <div class="checkmark">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                        <circle cx="30" cy="30" r="28" stroke="#27ae60" stroke-width="4" fill="none" class="circle-animate"/>
+                        <path d="M16 30L26 40L44 22" stroke="#27ae60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="checkmark-animate"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <section class="success-content fade-in-up">
+            <div class="success-header">
+                <h1>Отлично, {{ first_name }}! 🎉</h1>
+                <p class="success-subtitle">Ваша заявка успешно отправлена</p>
+            </div>
+
+            <!-- Appointment Details Card -->
+            <div class="appointment-details-card fade-in-up delay-1">
+                <div class="card-header">
+                    <h2>
+                        <span class="card-icon">📋</span>
+                        Детали вашей записи
+                    </h2>
+                </div>
+                
+                <div class="appointment-info">
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="info-icon">👨‍⚕️</div>
+                            <div class="info-content">
+                                <label>Врач</label>
+                                <strong>{{ doctor }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <div class="info-content">
+                                <label>Дата</label>
+                                <strong>{{ date|date:"d F Y" }}</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">⏰</div>
+                            <div class="info-content">
+                                <label>Время</label>
+                                <strong>{{ time }}</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if service %}
+                    <div class="info-row">
+                        <div class="info-item">
+                            <div class="info-icon">🦷</div>
+                            <div class="info-content">
+                                <label>Услуга</label>
+                                <strong>{{ service }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="appointment-status">
+                    <div class="status-badge pending">
+                        <span class="status-icon">⏳</span>
+                        <span>Ожидает подтверждения</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="next-steps fade-in-up delay-2">
+                <h3>
+                    <span class="steps-icon">📞</span>
+                    Что дальше?
+                </h3>
+                <div class="steps-list">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Подтверждение записи</h4>
+                            <p>Администратор свяжется с вами в течение <strong>15 минут</strong> для подтверждения времени приема</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Подготовка к визиту</h4>
+                            <p>Возьмите с собой паспорт и предыдущие снимки зубов (если есть)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Приходите за 10 минут</h4>
+                            <p>Рекомендуем прийти заранее для заполнения документов</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-reminder fade-in-up delay-3">
+                <div class="contact-card">
+                    <h4>
+                        <span class="contact-icon">📍</span>
+                        Как нас найти
+                    </h4>
+                    <div class="contact-details">
+                        <p><strong>Адрес:</strong> г. Киев, ул. Шевченка, д. 15</p>
+                        <p><strong>Телефон:</strong> <a href="tel:+74951234567">+38 (063) 040-96-70<</a></p>
+                        <p><strong>Метро:</strong> Майдан</p>
+                    </div>
+                </div>
+                
+                <div class="emergency-contact">
+                    <p class="emergency-text">
+                        <span class="emergency-icon">🚨</span>
+                        Если у вас возникла неотложная ситуация, звоните по телефону 
+                        <a href="tel:+74951234567" class="emergency-phone">+38 (063) 040-96-70</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons fade-in-up delay-4">
+                <a href="{% url 'home' %}" class="btn btn-primary">
+                    <span class="btn-icon">🏠</span>
+                    Вернуться на главную
+                </a>
+
+                <a href="{% url 'book_appointment' %}" class="btn btn-secondary">
+                    <span class="btn-icon">📅</span>
+                    Записаться еще
+                </a>
+
+            </div>
+
+            <!-- Additional Information -->
+            <div class="additional-info fade-in-up delay-5">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-card-icon">🎁</div>
+                        <h4>Первый визит</h4>
+                        <p>Консультация и диагностика <strong>бесплатно</strong> для новых пациентов</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-icon">🏆</div>
+                        <h4>Гарантия качества</h4>
+                        <p>Все работы выполняются с гарантией от 1 года до пожизненной</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-icon">💳</div>
+                        <h4>Удобная оплата</h4>
+                        <p>Принимаем наличные, карты и предоставляем рассрочку</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger success animation
+            setTimeout(() => {
+                document.querySelector('.success-animation').classList.add('animate');
+            }, 300);
+
+            // Add floating animation to cards
+            const cards = document.querySelectorAll('.appointment-details-card, .next-steps, .contact-reminder');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${0.2 + index * 0.1}s`;
+                card.classList.add('float-animation');
+            });
+
+            // Add click effect to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('div');
+                    ripple.classList.add('ripple-effect');
+                    
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Show confirmation in browser notification (if supported)
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('DentCare - Запись подтверждена!', {
+                    body: 'Ваша заявка принята. Ожидайте звонка администратора.',
+                    icon: '/static/images/favicon.ico'
+                });
+            }
+
+            // Auto-refresh page after 30 minutes (session timeout)
+            setTimeout(() => {
+                if (confirm('Сессия истекает. Обновить страницу?')) {
+                    location.reload();
+                }
+            }, 30 * 60 * 1000);
+        });
+    </script>
+</body>
+</html>
