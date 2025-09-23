@@ -2,21 +2,553 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/jpeg" href="{% static 'images/icon.jpg' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DentCare - Классическая стоматология</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #764ba2;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #667eea;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 1rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .description {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Decorative Line */
+        .decorative-line {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin: 3rem auto;
+            border-radius: 2px;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            color: white;
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Services Section */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .service-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Doctors Section */
+        .doctors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .doctor-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .doctor-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .doctor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .doctor-card h3 {
+            color: white;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-specialty {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .doctor-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .doctor-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .book-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact h2 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+        }
+
+        .contact > p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item strong {
+            color: white;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item div {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Animation Classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-content {
+                padding: 0 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem;
+                box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-links a {
+                padding: 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                width: 100%;
+                text-align: center;
+            }
+
+            .container {
+                padding: 90px 1rem 2rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .services {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .doctors {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .doctor-stats {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .contact {
+                padding: 2rem 1rem;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .contact-item {
+                justify-content: center;
+                text-align: center;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .feature-card,
+            .service-card,
+            .doctor-card {
+                padding: 1.5rem;
+            }
+
+            .doctor-avatar {
+                width: 100px;
+                height: 100px;
+            }
+
+            .doctor-stats {
+                justify-content: space-between;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animations */
+        @keyframes slideInFromTop {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav {
+            animation: slideInFromTop 0.5s ease-out;
+        }
+    </style>
 </head>
 <body>
-<div class="container my-5">
-    <div class="success-container">
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-content">
             <a href="#" class="logo">🦷 DentCare</a>
-            <div class="nav-links">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <div class="nav-links" id="navLinks">
                 <a href="#services">Услуги</a>
                 <a href="#doctors">Врачи</a>
                 <a href="#about">О нас</a>
@@ -31,8 +563,8 @@
             <h1>Классическая стоматология с современным подходом</h1>
             <p class="subtitle">Здоровье ваших зубов — наш главный приоритет</p>
             <p class="description">
-                Наша клиника сочетает в себе проверенные временем методы лечения с новейшими технологиями. 
-                Мы предоставляем полный спектр стоматологических услуг в комфортной и безопасной обстановке, 
+                Наша клиника сочетает в себе проверенные временем методы лечения с новейшими технологиями.
+                Мы предоставляем полный спектр стоматологических услуг в комфортной и безопасной обстановке,
                 где каждый пациент получает индивидуальный подход и качественное лечение.
             </p>
             <a href="#contact" class="cta-button">Записаться на консультацию</a>
@@ -109,12 +641,12 @@
             <div class="doctors fade-in-up delay-3">
                 <div class="doctor-card">
                     <div class="doctor-avatar">
-                        <img src="{% static 'images/doctor1.jpg' %}">
+                        <img src="{% static 'images/doctor1.jpg' %}" alt="Томас Шелби">
                     </div>
                     <h3>Томас Шелби</h3>
                     <div class="doctor-specialty">Главный врач, стоматолог-терапевт</div>
                     <p class="doctor-description">
-                        Врач высшей категории, стаж работы 18 лет. Специализируется на эндодонтическом лечении 
+                        Врач высшей категории, стаж работы 18 лет. Специализируется на эндодонтическом лечении
                         и эстетической реставрации зубов. Кандидат медицинских наук, автор научных публикаций.
                     </p>
                     <div class="doctor-stats">
@@ -136,12 +668,12 @@
 
                 <div class="doctor-card">
                     <div class="doctor-avatar">
-                        <img src="{% static 'images/doctor2.jpg' %}">
+                        <img src="{% static 'images/doctor2.jpg' %}" alt="Том Харди">
                     </div>
                     <h3>Том Харди</h3>
                     <div class="doctor-specialty">Стоматолог-ортопед, имплантолог</div>
                     <p class="doctor-description">
-                        Врач первой категории, стаж 14 лет. Специализируется на ортопедическом лечении 
+                        Врач первой категории, стаж 14 лет. Специализируется на ортопедическом лечении
                         и дентальной имплантации. Постоянный участник российских и международных конференций.
                     </p>
                     <div class="doctor-stats">
@@ -163,12 +695,12 @@
 
                 <div class="doctor-card">
                     <div class="doctor-avatar">
-                        <img src="{% static 'images/doctor3.jpg' %}">
+                        <img src="{% static 'images/doctor3.jpg' %}" alt="Мэттью Макконахи">
                     </div>
                     <h3>Мэттью Макконахи</h3>
                     <div class="doctor-specialty">Стоматолог-ортодонт, детский стоматолог</div>
                     <p class="doctor-description">
-                        Врач первой категории, стаж 12 лет. Специализируется на ортодонтическом лечении 
+                        Врач первой категории, стаж 12 лет. Специализируется на ортодонтическом лечении
                         взрослых и детей, лечении детей всех возрастов. Сертифицированный специалист по брекет-системам.
                     </p>
                     <div class="doctor-stats">
@@ -233,8 +765,87 @@
             </div>
         </section>
     </div>
-   </div>
-</div>
-    <script src="{% static 'js/script.js' %}"></script>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.textContent = '☰';
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuToggle.textContent = '☰';
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with fade-in-up animation
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add some initial visibility to hero section
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.hero').classList.add('visible');
+            }, 200);
+        });
+
+        // Handle window resize for mobile menu
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('active');
+                menuToggle.textContent = '☰';
+            }
+        });
+
+        // Add loading animation to cards
+        const cards = document.querySelectorAll('.feature-card, .service-card, .doctor-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
 </body>
 </html>
