@@ -13,13 +13,18 @@ A web application for a dental clinic with an appointment booking system, databa
 - 🔑 Admin panel to manage:
   - Patients and appointments
   - Doctor availability
-  - [Site content](https://dental-fn7x.onrender.com/)
+  - [Site](https://dental-fn7x.onrender.com/)
 
 ---
 
-## 🖼 Screenshots
-```markdown
-![Main page](images/main_page.png)
-![Booking form](images/form.png)
-![Success page](images/success.png)
-![Admin panel](images/admin.png)
+
+![](images/1.jpg)
+![](images/2.jpg)
+![](images/3.jpg)
+![](images/4.jpg)
+![](images/5.jpg)
+![](images/6.jpg)
+![](images/7.jpg)
+![](images/8.jpg)
+![](images/9.jpg)
+![](images/10.jpg)
