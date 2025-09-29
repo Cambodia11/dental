@@ -1,5 +1,7 @@
 # 🦷 Dental Clinic Website
 
+[🇷🇺 Читать на русском](README.ru.md)
+
 A web application for a dental clinic with an appointment booking system, database integration, and admin panel for managing patients and doctors.  
 
 ---
